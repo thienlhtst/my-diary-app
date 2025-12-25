@@ -1,0 +1,381 @@
+/* src/App.css */
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Quicksand:wght@400;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+/* --- 1. SETUP & THEME --- */
+:root {
+    --bg-color: #fdfbf7;
+    --card-bg: #ffffff;
+    --text-main: #4a4a4a;
+    --text-light: #8c8c8c;
+    --accent: #e56b6f;
+    --shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+    overflow-y: scroll; /* Luôn hiển thị thanh cuộn dọc */
+}
+body {
+    background-color: var(--bg-color);
+    
+    background-image: radial-gradient(#dcdcdc 1px, transparent 1px);
+    background-size: 20px 20px;
+    font-family: 'Quicksand', sans-serif;
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+/* ... (Copy tiếp phần còn lại của CSS cũ vào đây) ... */
+
+/* Header Styles */
+header {
+    text-align: center;
+    padding: 4rem 1rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+    transition: transform 0.3s;
+}
+
+.profile-pic:hover {
+    transform: rotate(5deg) scale(1.05);
+}
+
+h1 {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 3rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+}
+
+.bio {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.tags {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.tag {
+    padding: 8px 20px;
+    background: #fff;
+    border-radius: 50px;
+    border: 1px solid #eee;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: 0.3s;
+    position: relative; /* Để cái nền active-bg căn theo nút */
+    z-index: 1;
+    background: transparent; /* Bỏ màu nền cứng */
+    border: 1px solid #eee;
+    overflow: hidden; /* Quan trọng */
+}
+
+.tag.active {
+    color: #fff;
+    border-color: transparent;
+}
+
+/* Gallery & Items */
+.gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 50px;
+    min-height: 100vh;
+    /* --- QUAY LẠI DÙNG COLUMN ĐỂ FIX CHIỀU CAO TỰ ĐỘNG --- */
+    column-count: 4; 
+    column-gap: 1.5rem;
+    /* Xóa display: grid cũ đi nhé */
+}
+
+.diary-item {
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1.5rem; /* Cần lại margin này để tạo khoảng cách dọc */
+    
+    /* --- CỰC KỲ QUAN TRỌNG ĐỂ KHÔNG BỊ LỖI HIỂN THỊ KHI ANIMATION --- */
+    break-inside: avoid-column; /* Ngăn thẻ bị cắt đôi giữa các cột */
+    -webkit-backface-visibility: hidden; /* Mẹo giúp animation mượt hơn trên Safari/Chrome */
+    backface-visibility: hidden;
+    transform: translateZ(0); /* Kích hoạt GPU để render mượt hơn */
+}
+
+.diary-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px -10px rgba(0,0,0,0.15);
+}
+
+.photo-frame {
+    padding: 10px 10px 0 10px;
+    position: relative;
+}
+
+.photo-frame img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+}
+
+.item-content {
+    padding: 1.2rem;
+}
+
+.date {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.item-title {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.caption {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-light);
+}
+
+.sticker {
+    position: absolute;
+    font-size: 1.5rem;
+    top: -10px;
+    right: -10px;
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: rotate(15deg);
+    z-index: 2;
+}
+
+/* Responsive */
+@media (max-width: 1024px) { .gallery-container { column-count: 3; } }
+@media (max-width: 768px) { .gallery-container { column-count: 2; } }
+@media (max-width: 480px) { .gallery-container { column-count: 1; } }
+
+
+/* --- ADMIN DASHBOARD STYLES --- */
+
+/* Layout tổng: Chia 2 cột (Menu - Nội dung) */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* 1. SIDEBAR (MENU TRÁI) */
+.sidebar {
+    width: 280px;
+    background: #ffffff;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #eee;
+    position: fixed; /* Cố định menu */
+    height: 100vh;
+    z-index: 100;
+}
+
+.logo-area {
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent);
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.menu-item {
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: var(--text-light);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+    background: #fff0f1;
+    color: var(--accent);
+    transform: translateX(5px);
+}
+
+.menu-item.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 10px 20px -5px rgba(229, 107, 111, 0.4);
+}
+
+.logout-btn {
+    margin-top: auto; /* Đẩy xuống đáy */
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+/* 2. MAIN CONTENT (NỘI DUNG PHẢI) */
+.main-content {
+    flex: 1;
+    margin-left: 280px; /* Chừa chỗ cho sidebar */
+    padding: 2rem 3rem;
+    background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-header h2 {
+    font-size: 2rem;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.page-header p { color: var(--text-light); }
+
+/* Card chứa form */
+.dashboard-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Elements đẹp hơn */
+.input-group { margin-bottom: 1.5rem; }
+
+.label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #555;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inp {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: 0.3s;
+    background: #fdfdfd;
+}
+
+.inp:focus {
+    border-color: var(--accent);
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(229, 107, 111, 0.1);
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Button xịn */
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-primary:hover {
+    background: #d65a5e;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(229, 107, 111, 0.4);
+}
+
+/* Ảnh preview */
+.preview-box {
+    margin-top: 15px;
+    width: 100%;
+    height: 250px;
+    border-radius: 15px;
+    border: 2px dashed #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #fafafa;
+    position: relative;
+}
+
+.preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-text { color: #aaa; pointer-events: none; }
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+    .sidebar { width: 80px; padding: 1rem; }
+    .menu-item span, .logo-area span { display: none; } /* Ẩn chữ chỉ hiện icon */
+    .menu-item { justify-content: center; padding: 15px; }
+    .main-content { margin-left: 80px; padding: 1rem; }
+    .grid-2 { grid-template-columns: 1fr; }
+}
